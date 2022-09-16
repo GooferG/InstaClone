@@ -4,8 +4,6 @@ const Comment = require('../models/Comment');
 module.exports = {
   createComment: async (req, res) => {
     try {
-      // Upload image to cloudinary
-
       await Comment.create({
         comment: req.body.comment,
         likes: 0,
@@ -21,14 +19,14 @@ module.exports = {
   likeComment: async (req, res) => {
     try {
       await Comment.findOneAndUpdate(
-        // find post to update by ID,
-        { _id: req.params.id },
+        // find Comment to update by ID,
+        { _id: req.query.commentId },
         {
           $inc: { likes: 1 }, // and increment by 1
         }
       );
       console.log('Likes +1');
-      res.redirect(`/post/${req.params.id}`); // Redirect back to post page
+      res.redirect(`/post/${req.query.postid}`); // Redirect back to post page
     } catch (err) {
       console.log(err);
     }
@@ -36,10 +34,9 @@ module.exports = {
 
   deleteComment: async (req, res) => {
     try {
-      // Find post by id
-
-      let comment = await Comment.findById({ _id: req.params.id });
-      // Delete post from db
+      // Find comment by id
+      let comment = await Comment.findById({ _id: req.query.commentId });
+      // Delete comment from db
       await Comment.remove({ _id: req.params.id });
       console.log('Deleted Comment');
       console.log(req.params.id);
