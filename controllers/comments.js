@@ -35,7 +35,7 @@ module.exports = {
   deleteComment: async (req, res) => {
     try {
       // Find comment by id
-      let comment = await Comment.findById({ _id: req.query.commentId });
+      let comment = await Comment.findById({ _id: req.params.id });
       // Delete comment from db
       await Comment.remove({ _id: req.params.id });
       console.log('Deleted Comment');
