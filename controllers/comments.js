@@ -17,6 +17,7 @@ module.exports = {
       console.log(err);
     }
   },
+
   likeComment: async (req, res) => {
     try {
       await Comment.findOneAndUpdate(
@@ -32,18 +33,19 @@ module.exports = {
       console.log(err);
     }
   },
+
   deleteComment: async (req, res) => {
     try {
       // Find post by id
-      let comment = await Comment.findById({ _id: req.params.id });
-      // Delete image from cloudinary
 
+      let comment = await Comment.findById({ _id: req.params.id });
       // Delete post from db
       await Comment.remove({ _id: req.params.id });
       console.log('Deleted Comment');
-      res.redirect(`/post/${req.params.id}`);
+      console.log(req.params.id);
+      res.redirect(`/post/${req.query.postid}`);
     } catch (err) {
-      res.redirect(`/post/${req.params.id}`);
+      res.redirect(err);
     }
   },
 };
